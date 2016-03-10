@@ -347,7 +347,7 @@ namespace Microsoft.DotNet.Cli.Build
             foreach (var assemblyToCrossgen in AssembliesToCrossGen)
             {
                 c.Info($"Crossgenning {assemblyToCrossgen}");
-                ExecInSilent(outputDir, crossgen, "-nologo", "-platform_assemblies_paths", outputDir, assemblyToCrossgen);
+                ExecInSilent(outputDir, crossgen, "-nologo", "-FragileNonVersionable", "-platform_assemblies_paths", outputDir, assemblyToCrossgen);
             }
 
             c.Info("Crossgen complete");
@@ -378,13 +378,6 @@ namespace Microsoft.DotNet.Cli.Build
                 "csc.dll",
                 "vbc.dll"
             };
-
-            // mscorlib is already crossgenned on Windows
-            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                // mscorlib has to be crossgenned first
-                list.Insert(0, "mscorlib.dll");
-            }
 
             return list;
         }
